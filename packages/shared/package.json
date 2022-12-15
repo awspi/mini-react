@@ -1,0 +1,8 @@
+{
+  "name": "shared",
+  "version": "1.0.0",
+  "description": "shared所有公用方法,类型定义",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
