@@ -2,6 +2,7 @@ import path from 'path'
 import fs from 'fs'
 import ts from 'rollup-plugin-typescript2'
 import cjs from '@rollup/plugin-commonjs'
+import replace from '@rollup/plugin-replace'
 
 //源码路径
 const pkgPath = path.resolve(__dirname, '../../packages')
@@ -36,10 +37,13 @@ export function resolvePkgPath(pkgName, isDist) {
 /**
  * 获取所有基础的Rollup plugin
  */
-export function getBaseRollupPlugins({ typescript = {} } = {}) {
+export function getBaseRollupPlugins({
+	alias = { __DEV__: true },
+	typescript = {}
+} = {}) {
 	// 1.解析cmj规范
 	// @rollup/plugin-commonjs
 	// 2.ts->js
 	// rollup-plugin-typescript2
-	return [cjs(), ts(typescript)]
+	return [replace(alias), cjs(), ts(typescript)]
 }

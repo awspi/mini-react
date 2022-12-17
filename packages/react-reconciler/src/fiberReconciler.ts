@@ -6,7 +6,7 @@ import {
 	createUpdateQueue,
 	enqueueUpdate,
 	UpdateQueue
-} from './UpdateQueue'
+} from './updateQueue'
 import { scheduleUpdateOnFiber } from './workLoop'
 import { HostRoot } from './workTags'
 
@@ -23,7 +23,7 @@ export function createContainer(container: Container) {
 	hostRootFiber.updateQueue = createUpdateQueue()
 	return root
 }
-// .render 内部执行
+// .render() 内部执行
 /**
  * 创建update 并将 update 添加到updateQueue中
  * @param element

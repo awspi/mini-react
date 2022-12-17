@@ -8,6 +8,7 @@ let workInProgress: FiberNode | null = null
 
 //? 让workInProgress指向当前遍历的第一个节点
 function prepareFreshStack(root: FiberRootNode) {
+	// 为 hostRootFiber 创建wip
 	workInProgress = createWorkInProgress(root.current, {})
 }
 // 在fiber中调度update 链接Container和renderRoot
@@ -41,9 +42,17 @@ function renderRoot(root: FiberRootNode) {
 			workLoop()
 		} catch (e) {
 			workInProgress = null
-			console.warn('workLoop发生错误')
+			if (__DEV__) {
+				console.warn('workLoop发生错误')
+			}
 		}
 	} while (true)
+
+	const finishWork = root.current.alternate
+	root.finishedWork = finishWork
+	// wip fiberNode树 树中的flags
+	//todo
+	commitRoot(root)
 }
 
 function workLoop() {
@@ -60,7 +69,7 @@ function performUnitOfWork(fiber: FiberNode) {
 	// next可能是 子fiber or null
 	if (next === null) {
 		// 递归到最深了
-		//? 如果没有子节点，遍历兄弟节点 ->completeUnitOfWork
+		//? 如果没有子节点，遍历兄弟节点 开始归->completeUnitOfWork
 		completeUnitOfWork(fiber)
 	} else {
 		//继续向下遍历
@@ -71,7 +80,7 @@ function performUnitOfWork(fiber: FiberNode) {
 function completeUnitOfWork(fiber: FiberNode) {
 	let node: FiberNode | null = fiber
 	do {
-		completeWork(node)
+		completeWork(node) //DFS中的 归
 		const sibling = node.sibling
 		// 如果存在兄弟节点 就再遍历兄弟节点
 		if (sibling !== null) {
