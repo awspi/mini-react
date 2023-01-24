@@ -1,3 +1,4 @@
+import { Dispatch } from 'react/src/currentDispatcher'
 import { Action } from 'shared/ReactTypes'
 /**
  * Update的数据结构
@@ -13,6 +14,8 @@ export interface UpdateQueue<State> {
 	shared: {
 		pending: Update<State> | null
 	}
+	//兼容hooks 用于保存hook的dispatch
+	dispatch: Dispatch<State> | null
 }
 
 // 创建update实例的方法
