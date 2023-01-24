@@ -52,7 +52,7 @@ const commitPlacement = (finishedWork: FiberNode) => {
 	//parent DOM 要插入到谁?
 	//finishedWork ~~DOM //fiber找到对应的DOM节点
 	if (__DEV__) {
-		console.warn('执行Place操作')
+		console.warn('执行Placement操作')
 	}
 	// parent DOM
 	const hostParent = getHostParent(finishedWork)
@@ -91,7 +91,7 @@ function appendPlacementNodeIntoContainer(
 	// DFS 出口
 	//fiber-->找到host类型的fiber 然后插入到host parent
 	if (finishedWork.tag === HostComponent || finishedWork.tag === HostText) {
-		appendChildToContainer(finishedWork.stateNode, hostParent)
+		appendChildToContainer(hostParent, finishedWork.stateNode)
 		return
 	}
 	// 向下遍历

@@ -38,7 +38,7 @@ export function resolvePkgPath(pkgName, isDist) {
  * 获取所有基础的Rollup plugin
  */
 export function getBaseRollupPlugins({
-	alias = { __DEV__: true },
+	alias = { __DEV__: true, preventAssignment: true },
 	typescript = {}
 } = {}) {
 	// 1.解析cmj规范

@@ -44,23 +44,23 @@ export const enqueueUpdate = <State>(
  * updateQueue消费update
  * @param baseState 基础的状态
  * @param pendingUpdate pendingUpdate
- * @returns 最终的状态 memorizedState
+ * @returns 最终的状态 memoizedState
  */
 export const processUpdateQueue = <State>(
 	baseState: State,
 	pendingUpdate: Update<State> | null
-): { memorizedState: State } => {
+): { memoizedState: State } => {
 	const result: ReturnType<typeof processUpdateQueue<State>> = {
-		memorizedState: baseState
+		memoizedState: baseState
 	}
 	if (pendingUpdate !== null) {
-		// baseState 1 update 2 ->memorizedState 2
-		// baseState 1 update (x)=>4x ->memorizedState 4
+		// baseState 1 update 2 ->memoizedState 2
+		// baseState 1 update (x)=>4x ->memoizedState 4
 		const action = pendingUpdate.action
 		if (action instanceof Function) {
-			result.memorizedState = action(baseState)
+			result.memoizedState = action(baseState)
 		} else {
-			result.memorizedState = action
+			result.memoizedState = action
 		}
 	}
 	return result
