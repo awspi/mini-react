@@ -1,3 +1,8 @@
+/**
+ * HostConfig
+ */
+
+//宿主挂载的节点
 export type Container = any
 
 export const createInstance = (...args: any) => {

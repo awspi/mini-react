@@ -61,7 +61,7 @@ export class FiberNode {
 
 //根FiberNode节点
 export class FiberRootNode {
-	//宿主环境挂载的节点
+	//宿主环境挂载的节点 ReactDOM.createRoot(rootElement)的 rootElement
 	container: Container
 	//指向HostRootFiber
 	current: FiberNode
@@ -79,7 +79,7 @@ export const createWorkInProgress = (
 	current: FiberNode,
 	pendingProps: Props
 ): FiberNode => {
-	// 双缓存机制 应该返回alternate
+	// 双缓存机制 -> 传入fiberNode应该返回alternate
 	// WorkInProgress 缩写为wip
 	let wip = current.alternate
 	//对于首屏渲染 wip 为null
