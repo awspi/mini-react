@@ -3,8 +3,14 @@
 import { ReactElementType } from 'shared/ReactTypes'
 import { mountChildFibers, reconcileChildFibers } from './childFibers'
 import { FiberNode } from './fiber'
+import { renderWithHooks } from './fiberHooks'
 import { processUpdateQueue, UpdateQueue } from './updateQueue'
-import { HostComponent, HostRoot, HostText } from './workTags'
+import {
+	FunctionComponent,
+	HostComponent,
+	HostRoot,
+	HostText
+} from './workTags'
 
 //* ReactElement与对应的fiberNode比较 返回子fiberNode
 export const beginWork = (wip: FiberNode) => {
@@ -18,6 +24,8 @@ export const beginWork = (wip: FiberNode) => {
 		case HostText:
 			// 递 到叶子结点HostText
 			return null
+		case FunctionComponent:
+			return updateFunctionComponent(wip)
 		default:
 			if (__DEV__) {
 				console.warn('beginWork尚未实现的类型', wip.tag)
@@ -25,6 +33,12 @@ export const beginWork = (wip: FiberNode) => {
 			break
 	}
 	return null
+}
+
+function updateFunctionComponent(wip: FiberNode) {
+	const nextChildren = renderWithHooks(wip)
+	reconcileChildren(wip, nextChildren)
+	return wip.child
 }
 
 function updateHostRoot(wip: FiberNode) {

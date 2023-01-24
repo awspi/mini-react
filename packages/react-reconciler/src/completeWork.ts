@@ -8,7 +8,12 @@ import {
 } from 'hostConfig'
 import { FiberNode } from './fiber'
 import { NoFlags } from './fiberFlags'
-import { HostComponent, HostRoot, HostText } from './workTags'
+import {
+	FunctionComponent,
+	HostComponent,
+	HostRoot,
+	HostText
+} from './workTags'
 
 //* ReactElement与对应的fiberNode比较 返回子fiberNode
 export const completeWork = (wip: FiberNode) => {
@@ -39,6 +44,9 @@ export const completeWork = (wip: FiberNode) => {
 			bubbleProperties(wip)
 			return null
 		case HostRoot:
+			bubbleProperties(wip)
+			return null
+		case FunctionComponent:
 			bubbleProperties(wip)
 			return null
 		default:
