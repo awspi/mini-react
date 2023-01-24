@@ -1,6 +1,7 @@
 import { beginWork } from './beginWork'
 import { completeWork } from './completeWork'
 import { createWorkInProgress, FiberNode, FiberRootNode } from './fiber'
+import { MutationMask, NoFlags } from './fiberFlags'
 import { HostRoot } from './workTags'
 
 // 全局的指针,指向当前工作的fiberNode
@@ -53,6 +54,30 @@ function renderRoot(root: FiberRootNode) {
 	// wip fiberNode树 树中的flags
 	//todo
 	commitRoot(root)
+}
+
+function commitRoot(root: FiberRootNode) {
+	const finishedWork = root.finishedWork
+	if (finishedWork === null) {
+		return
+	}
+	if (__DEV__) {
+		console.warn('commit阶段 开始', finishedWork)
+	}
+	//重置
+	root.finishedWork = null
+	//判断是否存在三个子阶段(beforeMutation、mutation、layout)需要去执行的操作
+	//root flags / root subtreeFlags 是否包含MutationMask的flag
+	const subtreeFlags = (finishedWork.subtreeFlags & MutationMask) !== NoFlags
+	const rootHasEffect = (finishedWork.flags & MutationMask) !== NoFlags
+	if (subtreeFlags || rootHasEffect) {
+		//beforeMutation
+		//mutation
+		root.current = finishedWork
+		//layout
+	} else {
+		root.current = finishedWork
+	}
 }
 
 function workLoop() {
