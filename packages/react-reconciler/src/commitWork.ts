@@ -52,7 +52,7 @@ const commitPlacement = (finishedWork: FiberNode) => {
 	//parent DOM 要插入到谁?
 	//finishedWork ~~DOM //fiber找到对应的DOM节点
 	if (__DEV__) {
-		console.warn('执行Placement操作')
+		console.warn('执行Placement操作', finishedWork)
 	}
 	// parent DOM
 	const hostParent = getHostParent(finishedWork)
