@@ -14,13 +14,13 @@ export default [
 		output: [
 			{
 				file: `${pkgDistPath}/index.js`,
-				name: 'index.js',
+				name: 'ReactDOM',
 				format: 'umd' //兼容cmj esm
 			},
 			{
 				//兼容v17之前
 				file: `${pkgDistPath}/client.js`,
-				name: 'client.js',
+				name: 'client',
 				format: 'umd' //兼容cmj esm
 			}
 		],
@@ -49,5 +49,19 @@ export default [
 				})
 			})
 		]
+	},
+	//react-test-utils
+	{
+		input: `${pkgPath}/test-utils.ts`,
+		output: [
+			{
+				file: `${pkgDistPath}/test-utils.js`,
+				name: 'testUtils',
+				format: 'umd' //兼容cmj esm
+			}
+		],
+		//不打包到react-dom
+		external: ['react-dom', 'react'],
+		plugins: [...getBaseRollupPlugins()]
 	}
 ]
